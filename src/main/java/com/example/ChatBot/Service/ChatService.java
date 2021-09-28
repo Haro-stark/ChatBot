@@ -18,39 +18,56 @@ public class ChatService {
     private ChatRepository chatRepository;
 
 
-    public List<Chat> getAllChats(){
+    public List<Chat> getAllChats() {
 
         return chatRepository.findAll();
     }
 
-    public ResponseEntity<Chat> getChatById(@PathVariable(value = "id") Long chatId){
+    public ResponseEntity<Chat> getChatById(@PathVariable(value = "id") Long chatId) {
         // the given id might not be present in the database so we put it optional
         Optional<Chat> chat = chatRepository.findById(chatId);
-        if(chat.isPresent()) {
+        
+        if (chat.isPresent()) {
             return ResponseEntity.ok().body(chat.get());
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
 
     }
 
     public Chat createChat(@Validated @RequestBody Chat chat) {
-        if(chat.getAnswerDate() == null) {
-            long millis=System.currentTimeMillis();
-            java.util.Date date=new java.util.Date(millis);
-            chat.setAnswerDate(date);
-        }
-        if(chat.getQuestionDate() == null) {
-            long millis=System.currentTimeMillis();
-            java.util.Date date=new java.util.Date(millis);
-            chat.setQuestionDate(date);
-        }
+
+        long millis = System.currentTimeMillis();
+        java.util.Date date = new java.util.Date(millis);
+        chat.setAnswerDate(date);
+        chat.setQuestionDate(date);
+
         return (Chat) chatRepository.save(chat);
     }
 
-    @DeleteMapping("/chats/{id}")
     public void delete(@PathVariable Long id) {
         chatRepository.deleteById(id);
+    }
+
+    public Chat updateChat(@Validated @RequestBody Chat chat) {
+        if(chat == null) {
+            System.out.println("No record found!");
+            return null;
+        }
+        else{
+            return chatRepository.save(chat);
+        }
+    }
+
+    public ResponseEntity<Chat> getQuestionById(@RequestParam("question") Long chatId) {
+        // the given id might not be present in the database so we put it optional
+        Optional<Chat> chat = chatRepository.findById(chatId);
+        if (chat.isPresent()) {
+            return ResponseEntity.ok().body(chat.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }

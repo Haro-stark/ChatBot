@@ -1,5 +1,6 @@
 package com.example.ChatBot.Service;
 
+import com.example.ChatBot.Model.Chat;
 import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserService {
     }
 
 
-    public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId){
+    public ResponseEntity<User> getUserById(Long userId){
         // the given id might not be present in the database so we put it optional
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()) {
@@ -37,11 +38,41 @@ public class UserService {
 
     }
 
-    public User createUser(@Validated @RequestBody User user) {
+    public User createUser(User user) {
         return (User) userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User updateUser(User user) {
+        if(user == null) {
+            System.out.println("No record found!");
+            return null;
+        }
+        else{
+            return userRepository.save(user);
+        }
+
+    }
+
+    public ResponseEntity<User> getLoginByUsername(String uname, String pass){
+        // the given id might not be present in the database so we put it optional
+        User user = userRepository.findByUsername(uname);
+        if(user !=null) {
+            if(user.getPassword() == pass)
+            {
+                return ResponseEntity.ok().body(user);
+            }else
+            {
+                return ResponseEntity.notFound().build();
+            }
+
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
 }
