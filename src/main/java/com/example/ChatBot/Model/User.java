@@ -3,10 +3,14 @@ package com.example.ChatBot.Model;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+
+// A user model class that will contain all the necessary details of a user to be stored in database.
 @Entity
+// This model class will automatically be converted to a table in database based on this table annotation
 @Table(name = "user")
 public class User {
 
+    // All column of the user to be stored in database
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false, unique = true)
@@ -19,7 +23,7 @@ public class User {
     private String email;
 
 
-
+    //Setter and getter of all the fields
     public long getId() {
         return id;
     }

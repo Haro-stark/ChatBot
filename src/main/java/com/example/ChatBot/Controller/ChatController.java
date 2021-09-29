@@ -21,62 +21,95 @@ import java.util.Optional;
 public class ChatController {
 
     private final ChatService chatService;
+    //an ID that is used to authenticate the request header authentication token
     private final static String uuid = "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454";
 
+    //Initialized the constructor instead of @autowired annotation
     public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    private boolean authorized(String authToken) throws HttpClientErrorException {
-        System.out.println("Inside Auth");
-        if(authToken.equals(uuid)) return true;
-        else return false;
+    //This function authorizes the authentication header in the request header
+    private void authorized(Optional<String> authToken) throws Exception {
+        if(!authToken.isPresent()) throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        if(!authToken.get().equals(uuid)) throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
     }
 
+    //This API retrieves all the chats
     @GetMapping("")
-    public List<Chat> getAllChats(@RequestHeader("Authorization") String authToken) throws Exception {
-        authorized(authToken);
+    public ResponseEntity<List<Chat>> getAllChats(@RequestHeader("Authorization") Optional<String> authToken) throws Exception {
+        try{
+            authorized(authToken);
+        }catch(HttpClientErrorException e){
+            if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
         return chatService.getAllChats();
     }
 
+    //This API only show certain object by taking on ID number
     @GetMapping("/{id}")
-    public ResponseEntity<Chat> getChatById(@RequestHeader("Authorization") String authToken,
+    public ResponseEntity<Chat> getChatById(@RequestHeader("Authorization") Optional<String> authToken,
                                             @PathVariable(value = "id") Long chatId) throws Exception {
-        authorized(authToken);
-        // the given id might not be present in the database so we put it optional
+        try{
+            authorized(authToken);
+        }catch(HttpClientErrorException e){
+            if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
         return chatService.getChatById(chatId);
     }
 
+    //This API just add the chat
     @PostMapping("/add")
-    public Chat createChat(@RequestHeader("Authorization") String authToken,
+    public ResponseEntity<Chat> createChat(@RequestHeader("Authorization") Optional<String> authToken,
                            @Validated @RequestBody Chat chat) throws Exception {
-        authorized(authToken);
-        return (Chat) chatService.createChat(chat);
+        try{
+            authorized(authToken);
+        }catch(HttpClientErrorException e){
+            if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+        return chatService.createChat(chat);
     }
 
-
+    //This API deletes certain chat
     @DeleteMapping("/{id}")
-    public void delete(@RequestHeader("Authorization") String authToken,
+    public ResponseEntity<Object> delete(@RequestHeader("Authorization") Optional<String> authToken,
                        @PathVariable Long id) throws Exception {
-        authorized(authToken);
-        chatService.delete(id);
+        try{
+            authorized(authToken);
+        }catch(HttpClientErrorException e){
+            if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+        return chatService.delete(id);
     }
 
+    //This API updates the chat by just giving certain ID all values should be update otherwise other fields will be NULL
     @PostMapping("/update")
-    public Chat updateChat(@RequestHeader("Authorization") String authToken,
+    public ResponseEntity<Chat> updateChat(@RequestHeader("Authorization") Optional<String> authToken,
                            @Validated @RequestBody Chat chat) throws Exception {
-        authorized(authToken);
+        try{
+            authorized(authToken);
+        }catch(HttpClientErrorException e){
+            if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
         return chatService.updateChat(chat);
     }
 
+    //This API takes question with ID in header
     @GetMapping("/question")
-        public ResponseEntity<Chat> getQuestionById(@RequestHeader("Authorization") String authToken,
+        public ResponseEntity<Chat> getQuestionById(@RequestHeader("Authorization") Optional<String> authToken,
                                                     @RequestParam("question") Long chatId) throws Exception {
-        authorized(authToken);
-        // the given id might not be present in the database, so we put it optional
+        try{
+            authorized(authToken);
+        }catch(HttpClientErrorException e){
+            if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
         return chatService.getQuestionById(chatId);
     }
-
 
 }

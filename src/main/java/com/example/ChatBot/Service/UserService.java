@@ -1,16 +1,12 @@
 package com.example.ChatBot.Service;
 
-import com.example.ChatBot.Model.Chat;
+
 import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -18,60 +14,78 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    //Initialized the constructor instead of autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-
-    public ResponseEntity<User> getUserById(Long userId){
-        // the given id might not be present in the database so we put it optional
-        Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent()) {
+    //Service function that requests the repository to get all users
+    public ResponseEntity<List<User>> getAllUsers() {
+        Optional<List<User>> user = Optional.of(userRepository.findAll());
+        if (user.isPresent()) {
             return ResponseEntity.ok().body(user.get());
-        }else{
-            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Service function that requests the repository to get all users
+    public ResponseEntity<User> getUserById(Long userId) {
+
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return ResponseEntity.ok().body(user.get());
+        } else {
+            return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
         }
 
     }
 
-    public User createUser(User user) {
-        return (User) userRepository.save(user);
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    public User updateUser(User user) {
-        if(user == null) {
-            System.out.println("No record found!");
-            return null;
-        }
-        else{
-            return userRepository.save(user);
+    //Service function that requests the repository to get all users
+    public ResponseEntity<User> createUser(User user) {
+        try {
+            return ResponseEntity.ok().body(userRepository.save(user));
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to Add User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
 
-    public ResponseEntity<User> getLoginByUsername(String uname, String pass){
-        // the given id might not be present in the database so we put it optional
-        User user = userRepository.findByUsername(uname);
-        if(user !=null) {
-            if(user.getPassword() == pass)
-            {
+    //Service function that requests the repository to get all users
+    public ResponseEntity<Object> deleteUser(Long id) {
+        try {
+            userRepository.deleteById(id);
+            return new ResponseEntity("User Deleted!\n", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to delete User!\n" + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Service function that requests the repository to get all users
+    public ResponseEntity<User> updateUser(User user) {
+        try {
+            return ResponseEntity.ok().body(userRepository.save(user));
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to Update User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //Service function that requests the repository to get all users
+    public ResponseEntity<User> getLoginByUsername(String uname, String pass) {
+
+        try {
+            User user = userRepository.findByUsername(uname);
+            if (user.getPassword().equals(pass)) {
                 return ResponseEntity.ok().body(user);
-            }else
-            {
-                return ResponseEntity.notFound().build();
+            } else {
+                return new ResponseEntity("Wrong Password\n" + "uname:" + user.getUsername() + "pass:" + user.getPassword(), HttpStatus.OK);
             }
-
-        }else{
-            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to Find User. Wrong Username\n" + e.getMessage(), HttpStatus.NOT_FOUND);
         }
+
 
     }
 

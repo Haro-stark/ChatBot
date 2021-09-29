@@ -1,8 +1,10 @@
 package com.example.ChatBot.Service;
 
 import com.example.ChatBot.Model.Chat;
+import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -14,58 +16,83 @@ import java.util.Optional;
 @Service
 public class ChatService {
 
-    @Autowired
-    private ChatRepository chatRepository;
+    private final ChatRepository chatRepository;
 
-
-    public List<Chat> getAllChats() {
-
-        return chatRepository.findAll();
+    //Initialized the constructor instead of autowired
+    public ChatService(ChatRepository chatRepository) {
+        this.chatRepository = chatRepository;
     }
 
-    public ResponseEntity<Chat> getChatById(@PathVariable(value = "id") Long chatId) {
-        // the given id might not be present in the database so we put it optional
-        Optional<Chat> chat = chatRepository.findById(chatId);
-        
+    //Service function that requests the repository to get all chats
+    public ResponseEntity<List<Chat>> getAllChats() {
+        Optional<List<Chat>> chat = Optional.of(chatRepository.findAll());
         if (chat.isPresent()) {
             return ResponseEntity.ok().body(chat.get());
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity("Chat Not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Service function that requests the repository to get chats by id
+    public ResponseEntity<Chat> getChatById(Long chatId) {
+
+        Optional<Chat> chat = chatRepository.findById(chatId);
+        if (chat.isPresent()) {
+            return ResponseEntity.ok().body(chat.get());
+        } else {
+            return new ResponseEntity("Chat Not Found", HttpStatus.NOT_FOUND);
         }
 
     }
 
-    public Chat createChat(@Validated @RequestBody Chat chat) {
+    //Service function that requests the repository to add a new chat to database
+    public ResponseEntity<Chat> createChat(Chat chat) {
 
         long millis = System.currentTimeMillis();
         java.util.Date date = new java.util.Date(millis);
         chat.setAnswerDate(date);
         chat.setQuestionDate(date);
 
-        return (Chat) chatRepository.save(chat);
-    }
-
-    public void delete(@PathVariable Long id) {
-        chatRepository.deleteById(id);
-    }
-
-    public Chat updateChat(@Validated @RequestBody Chat chat) {
-        if(chat == null) {
-            System.out.println("No record found!");
-            return null;
+        try {
+            return ResponseEntity.ok().body(chatRepository.save(chat));
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to Add Chat\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        else{
-            return chatRepository.save(chat);
+
+    }
+
+    //Service function that requests the repository to delete a chat based on id
+    public ResponseEntity<Object> delete(Long id) {
+        try {
+            chatRepository.deleteById(id);
+            return new ResponseEntity("User Deleted!\n", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to delete User!\n" + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    //Service function that requests the repository to update a chat
+    public ResponseEntity<Chat> updateChat(Chat chat) {
+
+        long millis = System.currentTimeMillis();
+        java.util.Date date = new java.util.Date(millis);
+        chat.setAnswerDate(date);
+        chat.setQuestionDate(date);
+        try {
+            return ResponseEntity.ok().body(chatRepository.save(chat));
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to Update chat\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    public ResponseEntity<Chat> getQuestionById(@RequestParam("question") Long chatId) {
-        // the given id might not be present in the database so we put it optional
+    //Service function that requests the repository to get a question based on its id
+    public ResponseEntity<Chat> getQuestionById(Long chatId) {
         Optional<Chat> chat = chatRepository.findById(chatId);
         if (chat.isPresent()) {
             return ResponseEntity.ok().body(chat.get());
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity("Chat Not Found", HttpStatus.NOT_FOUND);
         }
 
     }
