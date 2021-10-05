@@ -1,0 +1,109 @@
+2021-10-05 11:44:54,091 INFO o.s.b.StartupInfoLogger [main] Starting ChatBot using Java 1.8.0_73 on LTI-TRAINING-03 with PID 200 (D:\Developer\ChatBot\target\classes started by Haroon Rasheed in D:\Developer\ChatBot)
+2021-10-05 11:44:54,091 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-10-05 11:44:55,231 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-05 11:44:55,309 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 61 ms. Found 3 JPA repository interfaces.
+2021-10-05 11:44:55,840 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2021-10-05 11:44:55,856 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2021-10-05 11:44:55,856 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2021-10-05 11:44:55,856 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-05 11:44:56,028 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2021-10-05 11:44:56,028 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1781 ms
+2021-10-05 11:44:56,184 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-05 11:44:56,231 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-10-05 11:44:56,481 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-10-05 11:44:56,606 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2021-10-05 11:44:57,043 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-10-05 11:44:57,059 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-10-05 11:44:57,997 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table chat drop foreign key FK3rey0h7240vbk7odnpw75d87o
+2021-10-05 11:44:58,653 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table user_categories drop foreign key FK6r91537otve5embvcuv40is3j
+2021-10-05 11:44:59,637 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table user_categories drop foreign key FKqhdol0ia96a31f8ir2g928ems
+2021-10-05 11:44:59,903 DEBUG o.h.e.j.s.SqlStatementLogger [main] drop table if exists categories
+2021-10-05 11:45:00,793 DEBUG o.h.e.j.s.SqlStatementLogger [main] drop table if exists chat
+2021-10-05 11:45:01,324 DEBUG o.h.e.j.s.SqlStatementLogger [main] drop table if exists hibernate_sequence
+2021-10-05 11:45:01,934 DEBUG o.h.e.j.s.SqlStatementLogger [main] drop table if exists user
+2021-10-05 11:45:02,418 DEBUG o.h.e.j.s.SqlStatementLogger [main] drop table if exists user_categories
+2021-10-05 11:45:03,090 DEBUG o.h.e.j.s.SqlStatementLogger [main] create table categories (id bigint not null, name varchar(255) not null, primary key (id)) engine=InnoDB
+2021-10-05 11:45:03,481 DEBUG o.h.e.j.s.SqlStatementLogger [main] create table chat (chat_id bigint not null auto_increment, answer varchar(255) not null, answer_date varchar(255), question varchar(255) not null, question_date varchar(255), user_id bigint, primary key (chat_id)) engine=InnoDB
+2021-10-05 11:45:04,231 DEBUG o.h.e.j.s.SqlStatementLogger [main] create table hibernate_sequence (next_val bigint) engine=InnoDB
+2021-10-05 11:45:04,918 DEBUG o.h.e.j.s.SqlStatementLogger [main] insert into hibernate_sequence values ( 1 )
+2021-10-05 11:45:04,980 DEBUG o.h.e.j.s.SqlStatementLogger [main] create table user (user_id bigint not null auto_increment, email varchar(255) not null, name varchar(255) not null, password varchar(255) not null, username varchar(255) not null, primary key (user_id)) engine=InnoDB
+2021-10-05 11:45:05,387 DEBUG o.h.e.j.s.SqlStatementLogger [main] create table user_categories (user_id bigint not null, category_id bigint not null) engine=InnoDB
+2021-10-05 11:45:06,090 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table user add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email)
+2021-10-05 11:45:06,449 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table user add constraint UK_sb8bbouer5wak8vyiiy4pf2bx unique (username)
+2021-10-05 11:45:07,123 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table chat add constraint FK3rey0h7240vbk7odnpw75d87o foreign key (user_id) references user (user_id)
+2021-10-05 11:45:08,904 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table user_categories add constraint FK6r91537otve5embvcuv40is3j foreign key (category_id) references categories (id)
+2021-10-05 11:45:12,182 DEBUG o.h.e.j.s.SqlStatementLogger [main] alter table user_categories add constraint FKqhdol0ia96a31f8ir2g928ems foreign key (user_id) references user (user_id)
+2021-10-05 11:45:17,410 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-05 11:45:17,410 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-05 11:45:18,128 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-05 11:45:18,566 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2021-10-05 11:45:18,597 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2021-10-05 11:45:18,597 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Context refreshed
+2021-10-05 11:45:18,613 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
+2021-10-05 11:45:18,628 INFO s.d.s.w.s.ApiListingReferenceScanner [main] Scanning for api listing references
+2021-10-05 11:45:19,113 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: createUserUsingPOST_1
+2021-10-05 11:45:19,113 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: deleteUsingDELETE_1
+2021-10-05 11:45:19,128 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: getAllUsersUsingGET_1
+2021-10-05 11:45:19,159 INFO o.s.b.StartupInfoLogger [main] Started ChatBot in 25.628 seconds (JVM running for 27.786)
+2021-10-05 11:45:38,407 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-10-05 11:45:38,407 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-10-05 11:45:38,409 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2021-10-05 11:45:38,538 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] select next_val as id_val from hibernate_sequence for update
+2021-10-05 11:45:38,625 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] update hibernate_sequence set next_val= ? where next_val=?
+2021-10-05 11:45:38,794 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] insert into categories (name, id) values (?, ?)
+2021-10-05 11:45:46,304 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select next_val as id_val from hibernate_sequence for update
+2021-10-05 11:45:46,306 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] update hibernate_sequence set next_val= ? where next_val=?
+2021-10-05 11:45:46,433 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] insert into categories (name, id) values (?, ?)
+2021-10-05 11:46:22,874 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] insert into user (email, name, password, username) values (?, ?, ?, ?)
+2021-10-05 11:46:23,057 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] insert into chat (answer, answer_date, question, question_date) values (?, ?, ?, ?)
+2021-10-05 11:46:23,119 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 11:46:23,164 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 11:46:23,168 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] update chat set user_id=? where chat_id=?
+2021-10-05 11:48:36,007 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] insert into user (email, name, password, username) values (?, ?, ?, ?)
+2021-10-05 11:48:36,086 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] insert into chat (answer, answer_date, question, question_date) values (?, ?, ?, ?)
+2021-10-05 11:48:36,202 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 11:48:36,344 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] update chat set user_id=? where chat_id=?
+2021-10-05 12:11:47,054 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] select user0_.user_id as user_id1_2_, user0_.email as email2_2_, user0_.name as name3_2_, user0_.password as password4_2_, user0_.username as username5_2_ from user user0_
+2021-10-05 12:11:47,093 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:11:47,132 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:11:47,181 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:11:47,184 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:44:08,402 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select next_val as id_val from hibernate_sequence for update
+2021-10-05 12:44:08,434 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] update hibernate_sequence set next_val= ? where next_val=?
+2021-10-05 12:44:08,522 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] insert into categories (name, id) values (?, ?)
+2021-10-05 12:44:12,075 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select next_val as id_val from hibernate_sequence for update
+2021-10-05 12:44:12,075 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] update hibernate_sequence set next_val= ? where next_val=?
+2021-10-05 12:44:12,244 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] insert into categories (name, id) values (?, ?)
+2021-10-05 12:45:06,407 INFO c.e.C.C.CategoryController [http-nio-8080-exec-1] Unable to Authorize : 404 NOT_FOUND
+2021-10-05 12:45:08,910 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select category0_.id as id1_0_, category0_.name as name2_0_ from categories category0_
+2021-10-05 12:46:15,224 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] insert into user (email, name, password, username) values (?, ?, ?, ?)
+2021-10-05 12:46:15,320 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] insert into chat (answer, answer_date, question, question_date) values (?, ?, ?, ?)
+2021-10-05 12:46:15,336 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 12:46:15,344 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 12:46:15,360 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] update chat set user_id=? where chat_id=?
+2021-10-05 12:46:30,086 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select user0_.user_id as user_id1_2_, user0_.email as email2_2_, user0_.name as name3_2_, user0_.password as password4_2_, user0_.username as username5_2_ from user user0_
+2021-10-05 12:46:30,179 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:46:30,188 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:46:30,212 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:46:30,220 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:46:30,228 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:46:30,234 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-5] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:49:58,220 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] insert into user (email, name, password, username) values (?, ?, ?, ?)
+2021-10-05 12:49:58,292 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] insert into chat (answer, answer_date, question, question_date) values (?, ?, ?, ?)
+2021-10-05 12:49:58,292 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 12:49:58,324 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-05 12:49:58,324 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-7] update chat set user_id=? where chat_id=?
+2021-10-05 12:50:27,401 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] select user0_.user_id as user_id1_2_0_, user0_.email as email2_2_0_, user0_.name as name3_2_0_, user0_.password as password4_2_0_, user0_.username as username5_2_0_ from user user0_ where user0_.user_id=?
+2021-10-05 12:50:27,485 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:50:27,493 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:52:03,513 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select user0_.user_id as user_id1_2_, user0_.email as email2_2_, user0_.name as name3_2_, user0_.password as password4_2_, user0_.username as username5_2_ from user user0_
+2021-10-05 12:52:03,513 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:52:03,521 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:52:03,521 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:52:03,521 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:52:03,529 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:52:03,529 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 12:52:03,529 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-05 12:52:03,529 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-05 14:32:05,606 WARN c.z.h.p.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h15m36s841ms34µs).
+2021-10-05 17:39:33,353 WARN c.z.h.p.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m24s469ms227µs).

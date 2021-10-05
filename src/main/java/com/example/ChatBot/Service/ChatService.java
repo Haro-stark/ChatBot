@@ -1,21 +1,24 @@
 package com.example.ChatBot.Service;
 
+import com.example.ChatBot.DateTime;
 import com.example.ChatBot.Model.Chat;
-import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Repository.ChatRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ChatService {
 
+    private static final Logger LOG = LogManager.getLogger(ChatService.class);
     private final ChatRepository chatRepository;
 
     //Initialized the constructor instead of autowired
@@ -23,12 +26,16 @@ public class ChatService {
         this.chatRepository = chatRepository;
     }
 
+
+
     //Service function that requests the repository to get all chats
     public ResponseEntity<List<Chat>> getAllChats() {
+
         Optional<List<Chat>> chat = Optional.of(chatRepository.findAll());
         if (chat.isPresent()) {
             return ResponseEntity.ok().body(chat.get());
         } else {
+            LOG.info("Chats returned as empty in getAllChats() : " + chat);
             return new ResponseEntity("Chat Not Found", HttpStatus.NOT_FOUND);
         }
     }
@@ -40,6 +47,7 @@ public class ChatService {
         if (chat.isPresent()) {
             return ResponseEntity.ok().body(chat.get());
         } else {
+            LOG.info("Chat by ID returned as empty in getChatById() : " + chat);
             return new ResponseEntity("Chat Not Found", HttpStatus.NOT_FOUND);
         }
 
@@ -48,14 +56,14 @@ public class ChatService {
     //Service function that requests the repository to add a new chat to database
     public ResponseEntity<Chat> createChat(Chat chat) {
 
-        long millis = System.currentTimeMillis();
-        java.util.Date date = new java.util.Date(millis);
+        String date = DateTime.getDateTime();
         chat.setAnswerDate(date);
         chat.setQuestionDate(date);
 
         try {
             return ResponseEntity.ok().body(chatRepository.save(chat));
         } catch (Exception e) {
+            LOG.info("Chat by ID returned as empty in getChatById() : " + chat);
             return new ResponseEntity("Unable to Add Chat\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
@@ -75,8 +83,7 @@ public class ChatService {
     //Service function that requests the repository to update a chat
     public ResponseEntity<Chat> updateChat(Chat chat) {
 
-        long millis = System.currentTimeMillis();
-        java.util.Date date = new java.util.Date(millis);
+        String date = DateTime.getDateTime();
         chat.setAnswerDate(date);
         chat.setQuestionDate(date);
         try {

@@ -1,25 +1,23 @@
 package com.example.ChatBot.Controller;
-import com.example.ChatBot.ExceptionController;
 import com.example.ChatBot.Model.Chat;
-import com.example.ChatBot.Repository.ChatRepository;
 import com.example.ChatBot.Service.ChatService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-
-import javax.persistence.*;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
 
+    private static final Logger LOG = LogManager.getLogger(ChatController.class);
     private final ChatService chatService;
     //an ID that is used to authenticate the request header authentication token
     private final static String uuid = "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454";
@@ -41,6 +39,7 @@ public class ChatController {
         try{
             authorized(authToken);
         }catch(HttpClientErrorException e){
+            LOG.info("Unable to Authorize : " + e.getMessage());
             if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
@@ -54,6 +53,7 @@ public class ChatController {
         try{
             authorized(authToken);
         }catch(HttpClientErrorException e){
+            LOG.info("Unable to Authorize : " + e.getMessage());
             if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
@@ -67,6 +67,7 @@ public class ChatController {
         try{
             authorized(authToken);
         }catch(HttpClientErrorException e){
+            LOG.info("Unable to Authorize : " + e.getMessage());
             if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
@@ -80,6 +81,7 @@ public class ChatController {
         try{
             authorized(authToken);
         }catch(HttpClientErrorException e){
+            LOG.info("Unable to Authorize : " + e.getMessage());
             if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
@@ -93,6 +95,7 @@ public class ChatController {
         try{
             authorized(authToken);
         }catch(HttpClientErrorException e){
+            LOG.info("Unable to Authorize : " + e.getMessage());
             if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
@@ -106,6 +109,7 @@ public class ChatController {
         try{
             authorized(authToken);
         }catch(HttpClientErrorException e){
+            LOG.info("Unable to Authorize : " + e.getMessage());
             if(e.getStatusCode() == HttpStatus.NOT_FOUND) return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
