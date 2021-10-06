@@ -39,9 +39,7 @@ public class UserController {
     //This API gets all the user in database
     @GetMapping("")
     public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") Optional<String> authToken) throws Exception {
-
-
-        try {
+       try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
             LOG.info("Unable to Authorize : " + e.getMessage());
@@ -73,7 +71,7 @@ public class UserController {
     }
 
     //This API adds a user into the database
-    @PostMapping("/add")
+    @PostMapping("/addUser")
     public ResponseEntity<User> createUser(@RequestHeader("Authorization") Optional<String> authToken,
                                            @Validated @RequestBody User user) throws Exception {
         try {
@@ -85,11 +83,11 @@ public class UserController {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
                 return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
-        return userService.createUser(user);
+        return userService.addUser(user);
     }
 
     //This API deletes a user from the database
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<Object> delete(@RequestHeader("Authorization") Optional<String> authToken,
                                          @PathVariable Long id) throws Exception {
         try {
@@ -105,7 +103,7 @@ public class UserController {
     }
 
     //This API updates the user from the status
-    @PostMapping("/update")
+    @PostMapping("/updateUserInfo")
     public ResponseEntity<User> updateUser(@RequestHeader("Authorization") Optional<String> authToken,
                                            @Validated @RequestBody User user) throws Exception {
         try{
@@ -121,7 +119,7 @@ public class UserController {
     }
 
     //This API logins the user by comparing password and username
-    @GetMapping("/login")
+    @GetMapping("/loginUser")
     public ResponseEntity<User> loginUser(@RequestHeader("Authorization") Optional<String> authToken,
                                                 @RequestParam("username") String uname,
                                                 @RequestParam("password") String pass) throws Exception {
@@ -138,7 +136,7 @@ public class UserController {
     }
 
     //This API updates the user from the status
-    @PostMapping("/update/add/chat")
+    @PostMapping("/update/addUserChat")
     public ResponseEntity<User> updateUserChat(@RequestHeader("Authorization") Optional<String> authToken,
                                            @Validated @RequestBody User user) throws Exception {
         try{
@@ -150,6 +148,8 @@ public class UserController {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
                 return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
-        return userService.updateUserChat(user);
+        return userService.addUserChat(user);
     }
+
+
 }

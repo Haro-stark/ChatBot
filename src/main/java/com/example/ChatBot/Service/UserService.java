@@ -5,16 +5,16 @@ import com.example.ChatBot.DateTime;
 import com.example.ChatBot.Model.Chat;
 import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Repository.UserRepository;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+@Log
 @Service
 public class UserService {
 
@@ -25,14 +25,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+
     //Service function that requests the repository to get all users
     public ResponseEntity<List<User>> getAllUsers() {
-        Optional<List<User>> user = Optional.of(userRepository.findAll());
-        if (user.isPresent()) {
-            return ResponseEntity.ok().body(user.get());
-        } else {
-            return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+        try
+        {
+            List<User> users = userRepository.findAll();
+            if (users.size()>0) {
+                return ResponseEntity.ok().body(users);
+            } else {
+                return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e){
+            return new ResponseEntity("Unable to Get All Users\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
     }
 
     //Service function that requests the repository to get all users
@@ -48,16 +55,16 @@ public class UserService {
     }
 
     //Service function that requests the repository to get all users
-    public ResponseEntity<User> createUser(User user) {
-//        long millis = System.currentTimeMillis();
-//        java.util.Date date = new java.util.Date(millis);
-//        for (int i=0; i< user.getCategoryList().size(); i++)
-//        {
-//            user.getCategoryList().get(i).addUser(user, true);
-//        }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public ResponseEntity<User> addUser(User user) {
 
         String date = DateTime.getDateTime();
-        int size = user.getChatList().size();
+        Integer size = user.getChatList().size();
         for(int i=0; i<size; i++)
         {
             user.getChatList().get(i).setAnswerDate(date);
@@ -67,6 +74,8 @@ public class UserService {
         try {
             User userObj = userRepository.save(user);
             return ResponseEntity.ok().body(userObj);
+        } catch (HttpMessageNotReadableException e){
+            return new ResponseEntity("Please Provide a valid input format to Save a category!\n"+e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity("Unable to Add User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -99,62 +108,45 @@ public class UserService {
 
     /**
      *
-     * @param uname
-     * @param pass
+     * @param username
+     * @param password
      * @return
      **/
-    public ResponseEntity<User> getLoginByUsername(String uname, String pass) {
+    public ResponseEntity<User> getLoginByUsername(String username, String password) {
 
         try {
-            User user = userRepository.findByUsername(uname);
-            if (user.getPassword().equals(pass)) {
-                return new ResponseEntity("Login Successful\n" + "uname: " + user.getUsername() + "\npassword: " + user.getPassword(), HttpStatus.OK);
+            Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
+            if (user.isPresent()) {
+                return new ResponseEntity("Login Successful\n" + "username: " + user.get().getUsername() + "\npassword: " + user.get().getPassword(), HttpStatus.OK);
             } else {
-                return new ResponseEntity("Wrong Password\n" + "uname:" + user.getUsername() + "pass:" + user.getPassword(), HttpStatus.OK);
+                return new ResponseEntity("Wrong Username or Password\n", HttpStatus.OK);
             }
         } catch (Exception e) {
-            return new ResponseEntity("Unable to Find User. Wrong Username\n" + e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Unable to process the request.\n" + e.getMessage(), HttpStatus.NOT_FOUND);
         }
-
-
     }
 
-    public ResponseEntity<User> updateUserChat(User user) {
+    public ResponseEntity<User> addUserChat(User user) {
 
-        String date = DateTime.getDateTime();
-
-        Optional<User> updateUser = userRepository.findById(user.getUserId());
-        int size = updateUser.get().getChatList().size();
-        long[] existingChatsId = new long[size];
-
-        // Storing all the existing chat id's so that we can compare that if a hat id exist then we update it and not add it
-        for(int i=0; i<size; i++){
-            existingChatsId[i] = updateUser.get().getChatList().get(i).getChatId();
-        }
-
-        // to keep the index record which is needed to update the user at particular index
-        int index = 0;
-        if(updateUser.isPresent() && user.getChatList() != null){
-            for (Chat chat: user.getChatList()) {
-                chat.setQuestionDate(date);
-                chat.setAnswerDate(date);
-
-                if(ifChatExist(existingChatsId, chat.getChatId())){
-                    updateUser.get().getChatList().set(index, chat);
-                }else
-                {
-                    updateUser.get().getChatList().add(chat);
-                }
-
-                index++;
+        System.out.println(user.getChatList().get(0).getAnswer());
+        Optional<User> existingUser = userRepository.findById(user.getUserId());
+        if(!user.getChatList().isEmpty()){
+            String date = DateTime.getDateTime();
+            Integer size = user.getChatList().size();
+            for(int i=0; i<size; i++)
+            {
+                user.getChatList().get(i).setAnswerDate(date);
+                user.getChatList().get(i).setQuestionDate(date);
             }
         }
-        user = updateUser.get();
+
+        existingUser.get().getChatList().addAll(user.getChatList());
         try {
-            User userObj = userRepository.save(user);
+            User userObj = userRepository.save(existingUser.get());
+            System.out.println(userObj.getUsername());
             return ResponseEntity.ok().body(userObj);
         } catch (Exception e) {
-            return new ResponseEntity("Unable to Update User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Unable to Update User\n"+ e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.ChatBot.Controller;
 
 import com.example.ChatBot.Model.Category;
+import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Service.CategoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,9 +51,9 @@ public class CategoryController {
 
 
     //This API adds a user into the database
-    @PostMapping("/add")
-    public ResponseEntity<Category> createUser(@RequestHeader("Authorization") Optional<String> authToken,
-                                           @Validated @RequestBody Category category) throws Exception {
+    @PostMapping("/addCategory")
+    public ResponseEntity<List<Category>> createUser(@RequestHeader("Authorization") Optional<String> authToken,
+                                           @Validated @RequestBody List<Category> categories) throws Exception {
         try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
@@ -62,7 +63,40 @@ public class CategoryController {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
                 return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
-        return categoryService.addCategory(category);
+        return categoryService.addCategory(categories);
     }
+
+    //This API deletes a user from the database
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<Category> delete(@RequestHeader("Authorization") Optional<String> authToken,
+                                         @PathVariable Long id) throws Exception {
+        try {
+            authorized(authToken);
+        } catch (HttpClientErrorException e) {
+            LOG.info("Unable to   Authorize: " + e.getMessage());
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+        return categoryService.deleteCategory(id);
+    }
+
+    //This API updates the user from the status
+    @PostMapping("/updateUserInfo")
+    public ResponseEntity<Category> updateUser(@RequestHeader("Authorization") Optional<String> authToken,
+                                           @Validated @RequestBody Category category) throws Exception {
+        try{
+            authorized(authToken);
+        } catch (HttpClientErrorException e) {
+            LOG.info("Unable to   Authorize: " + e.getMessage());
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+        return categoryService.updateCategory(category);
+    }
+
 
 }
