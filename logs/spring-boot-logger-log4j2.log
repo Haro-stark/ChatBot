@@ -49,3 +49,6 @@
 2021-10-06 18:08:33,381 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select next_val as id_val from hibernate_sequence for update
 2021-10-06 18:08:33,383 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] update hibernate_sequence set next_val= ? where next_val=?
 2021-10-06 18:08:33,522 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] insert into categories (name, id) values (?, ?)
+2021-10-06 18:13:07,331 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-10-06 18:13:07,331 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2021-10-06 18:13:07,331 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
