@@ -68,7 +68,7 @@ public class CategoryController {
 
     //This API deletes a user from the database
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<Category> delete(@RequestHeader("Authorization") Optional<String> authToken,
+    public ResponseEntity<Object> delete(@RequestHeader("Authorization") Optional<String> authToken,
                                          @PathVariable Long id) throws Exception {
         try {
             authorized(authToken);

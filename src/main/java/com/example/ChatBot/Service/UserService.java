@@ -2,7 +2,6 @@ package com.example.ChatBot.Service;
 
 
 import com.example.ChatBot.DateTime;
-import com.example.ChatBot.Model.Chat;
 import com.example.ChatBot.Model.User;
 import com.example.ChatBot.Repository.UserRepository;
 import lombok.extern.java.Log;
@@ -14,19 +13,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Haroon Rasheed
+ * @Description This class implements logic of API. The Controller send data to their respective service class.
+ * This class is user Service class which has following functions/API's (major one is Login which authorize the user by
+ * email and password), show all user, get user by certain ID, update user and delete user by
+ * certain ID. Logger is also used to keep tracks of logs whenever any api is called the logs will be saved in file.
+ * @creationDate 07 October 2021
+ */
 @Log
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private String date;
+
 
     //Initialized the constructor instead of autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-
-    //Service function that requests the repository to get all users
+    /**
+     * @return ResponseEntity which return a list of all users in db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This function get and show all the user which are saved in database. The data from database
+     * comes in list so userlist.
+     * @creationDate 07 October 2021
+     */
     public ResponseEntity<List<User>> getAllUsers() {
         try
         {
@@ -42,28 +57,37 @@ public class UserService {
 
     }
 
-    //Service function that requests the repository to get all users
+    /**
+     * @return ResponseEntity which return a user of particular id from db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This Service function that requests the repository to get a user by its id.
+     * @creationDate 07 October 2021
+     */
     public ResponseEntity<User> getUserById(Long userId) {
-
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            return ResponseEntity.ok().body(user.get());
-        } else {
-            return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+        try{
+            Optional<User> user = userRepository.findById(userId);
+            if (user.isPresent()) {
+                return ResponseEntity.ok().body(user.get());
+            } else {
+                return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity("Unable to get user by id\n"+e.getMessage() , HttpStatus.BAD_REQUEST);
         }
-
     }
 
-    //Service function that requests the repository to get all users
-
     /**
-     *
-     * @param user
-     * @return
+     * @return ResponseEntity which return a user that has just been added in db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This Service function that requests the repository to add a user in the database.
+     * @creationDate 07 October 2021
      */
     public ResponseEntity<User> addUser(User user) {
 
-        String date = DateTime.getDateTime();
+
+        date = DateTime.getDateTime();
         Integer size = user.getChatList().size();
         for(int i=0; i<size; i++)
         {
@@ -82,7 +106,13 @@ public class UserService {
 
     }
 
-    //Service function that requests the repository to get all users
+    /**
+     * @return ResponseEntity which return an Http status code afer deleting from db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This Service function that requests the repository to delete a user from the database.
+     * @creationDate 07 October 2021
+     */
     public ResponseEntity<Object> deleteUser(Long id) {
         try {
             userRepository.deleteById(id);
@@ -92,7 +122,13 @@ public class UserService {
         }
     }
 
-    //Service function that requests the repository to get all users
+    /**
+     * @return ResponseEntity which returns a user after updating in db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This Service function that requests the repository to update a user from the database.
+     * @creationDate 07 October 2021
+     */
     public ResponseEntity<User> updateUser(User user) {
 //        ResponseEntity<User> updateUser = this.getUserById(user.getUserId());
 
@@ -104,16 +140,15 @@ public class UserService {
         }
     }
 
-    //Service function that requests the repository to get all users
-
     /**
-     *
-     * @param username
-     * @param password
-     * @return
-     **/
+     * @return ResponseEntity which returns a user after finding in db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This Service function that requests the repository to find a user from the database based on its username
+     * and password.
+     * @creationDate 07 October 2021
+     */
     public ResponseEntity<User> getLoginByUsername(String username, String password) {
-
         try {
             Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
             if (user.isPresent()) {
@@ -126,21 +161,32 @@ public class UserService {
         }
     }
 
+    /**
+     * @return ResponseEntity of a user which has been added in db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This Service function that requests the repository to add a chat of a user in the database based on
+     * its id.
+     * @creationDate 07 October 2021
+     */
     public ResponseEntity<User> addUserChat(User user) {
-
-        System.out.println(user.getChatList().get(0).getAnswer());
         Optional<User> existingUser = userRepository.findById(user.getUserId());
-        if(!user.getChatList().isEmpty()){
-            String date = DateTime.getDateTime();
-            Integer size = user.getChatList().size();
-            for(int i=0; i<size; i++)
-            {
-                user.getChatList().get(i).setAnswerDate(date);
-                user.getChatList().get(i).setQuestionDate(date);
+        try{
+            if(!user.getChatList().isEmpty()){
+                date = DateTime.getDateTime();
+                Integer size = user.getChatList().size();
+                for(int i=0; i<size; i++)
+                {
+                    user.getChatList().get(i).setAnswerDate(date);
+                    user.getChatList().get(i).setQuestionDate(date);
+                }
             }
-        }
 
-        existingUser.get().getChatList().addAll(user.getChatList());
+            existingUser.get().getChatList().addAll(user.getChatList());
+
+        }catch (Exception e){
+            return new ResponseEntity("Unable to add a chat in user!\n"+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         try {
             User userObj = userRepository.save(existingUser.get());
             System.out.println(userObj.getUsername());
@@ -149,15 +195,5 @@ public class UserService {
             return new ResponseEntity("Unable to Update User\n"+ e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-    public boolean ifChatExist(long[] arr, long toCheckValue){
-        for (long id : arr) {
-            if (id == toCheckValue) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 }
