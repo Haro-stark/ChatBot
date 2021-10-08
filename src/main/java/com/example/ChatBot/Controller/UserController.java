@@ -1,7 +1,7 @@
 package com.example.ChatBot.Controller;
 
 
-import com.example.ChatBot.Model.User;
+import com.example.ChatBot.Model.Entity.User;
 import com.example.ChatBot.Service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

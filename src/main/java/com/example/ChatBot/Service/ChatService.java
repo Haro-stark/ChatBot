@@ -1,7 +1,7 @@
 package com.example.ChatBot.Service;
 
 import com.example.ChatBot.DateTime;
-import com.example.ChatBot.Model.Chat;
+import com.example.ChatBot.Model.Entity.Chat;
 import com.example.ChatBot.Repository.ChatRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

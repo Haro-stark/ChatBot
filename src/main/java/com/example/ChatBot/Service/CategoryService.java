@@ -1,5 +1,5 @@
 package com.example.ChatBot.Service;
-import com.example.ChatBot.Model.Category;
+import com.example.ChatBot.Model.Entity.Category;
 import com.example.ChatBot.Repository.CategoryRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

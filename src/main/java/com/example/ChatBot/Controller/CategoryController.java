@@ -1,7 +1,6 @@
 package com.example.ChatBot.Controller;
 
-import com.example.ChatBot.Model.Category;
-import com.example.ChatBot.Model.User;
+import com.example.ChatBot.Model.Entity.Category;
 import com.example.ChatBot.Service.CategoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +35,7 @@ public class CategoryController {
 
     //This API gets all the user in database
     @GetMapping("")
-    public ResponseEntity<List<Category>> getAllUsers(@RequestHeader("Authorization") Optional<String> authToken) throws Exception {
+    public ResponseEntity<List<Category>> getAllCategories(@RequestHeader("Authorization") Optional<String> authToken) throws Exception {
         try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
@@ -52,8 +51,8 @@ public class CategoryController {
 
     //This API adds a user into the database
     @PostMapping("/addCategory")
-    public ResponseEntity<List<Category>> createUser(@RequestHeader("Authorization") Optional<String> authToken,
-                                           @Validated @RequestBody List<Category> categories) throws Exception {
+    public ResponseEntity<List<Category>> createCategory(@RequestHeader("Authorization") Optional<String> authToken,
+                                                         @Validated @RequestBody List<Category> categories) throws Exception {
         try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
@@ -68,8 +67,8 @@ public class CategoryController {
 
     //This API deletes a user from the database
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<Object> delete(@RequestHeader("Authorization") Optional<String> authToken,
-                                         @PathVariable Long id) throws Exception {
+    public ResponseEntity<Object> deleteCategory(@RequestHeader("Authorization") Optional<String> authToken,
+                                                 @PathVariable Long id) throws Exception {
         try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
@@ -84,8 +83,8 @@ public class CategoryController {
 
     //This API updates the user from the status
     @PostMapping("/updateUserInfo")
-    public ResponseEntity<Category> updateUser(@RequestHeader("Authorization") Optional<String> authToken,
-                                           @Validated @RequestBody Category category) throws Exception {
+    public ResponseEntity<Category> updateCategory(@RequestHeader("Authorization") Optional<String> authToken,
+                                                   @Validated @RequestBody Category category) throws Exception {
         try{
             authorized(authToken);
         } catch (HttpClientErrorException e) {

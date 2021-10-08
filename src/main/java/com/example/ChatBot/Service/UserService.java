@@ -2,7 +2,8 @@ package com.example.ChatBot.Service;
 
 
 import com.example.ChatBot.DateTime;
-import com.example.ChatBot.Model.User;
+import com.example.ChatBot.Model.Entity.Chat;
+import com.example.ChatBot.Model.Entity.User;
 import com.example.ChatBot.Repository.UserRepository;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
@@ -195,5 +196,31 @@ public class UserService {
             return new ResponseEntity("Unable to Update User\n"+ e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    /**
+     * @return ResponseEntity which return a list of all users in db. and in else it just return not found status
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This function get and show all the user which are saved in database. The data from database
+     * comes in list so userlist.
+     * @creationDate 07 October 2021
+     */
+    public ResponseEntity<List<User>> getUserChats() {
+        try
+        {
+            List<User> users = userRepository.findAll();
+            if (users.size()>0) {
+                return ResponseEntity.ok().body(users);
+            } else {
+                return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e){
+            return new ResponseEntity("Unable to Get All Users\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
 
 }

@@ -1,12 +1,9 @@
 package com.example.ChatBot.Repository;
 
-import com.example.ChatBot.Model.Chat;
-import com.example.ChatBot.Model.User;
+import com.example.ChatBot.Model.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 /* Repository is an interface that extends JPARepository class. It will provide us with all the main

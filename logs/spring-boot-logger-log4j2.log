@@ -1,54 +1,26 @@
-2021-10-06 18:06:35,658 INFO o.s.b.StartupInfoLogger [main] Starting ChatBot using Java 1.8.0_73 on LTI-TRAINING-03 with PID 3752 (D:\Developer\ChatBot\target\classes started by Haroon Rasheed in D:\Developer\ChatBot)
-2021-10-06 18:06:35,673 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-10-06 18:06:36,798 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-10-06 18:06:36,876 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 65 ms. Found 3 JPA repository interfaces.
-2021-10-06 18:06:37,408 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
-2021-10-06 18:06:37,455 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
-2021-10-06 18:06:37,455 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
-2021-10-06 18:06:37,455 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.53]
-2021-10-06 18:06:37,626 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
-2021-10-06 18:06:37,626 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1812 ms
-2021-10-06 18:06:37,767 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-10-06 18:06:37,923 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 5.4.32.Final
-2021-10-06 18:06:38,048 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-10-06 18:06:38,158 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
-2021-10-06 18:06:38,470 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
-2021-10-06 18:06:38,501 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2021-10-06 18:06:39,392 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-10-06 18:06:39,408 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-10-06 18:06:40,033 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-10-06 18:06:40,454 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
-2021-10-06 18:06:40,470 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
-2021-10-06 18:06:40,470 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Context refreshed
-2021-10-06 18:06:40,751 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
-2021-10-06 18:06:40,751 INFO s.d.s.w.s.ApiListingReferenceScanner [main] Scanning for api listing references
-2021-10-06 18:06:40,954 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: deleteUsingDELETE_1
-2021-10-06 18:06:40,986 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: createUserUsingPOST_1
-2021-10-06 18:06:40,986 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: deleteUsingDELETE_2
-2021-10-06 18:06:40,986 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: getAllUsersUsingGET_1
-2021-10-06 18:06:41,001 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: updateUserUsingPOST_1
-2021-10-06 18:06:41,032 INFO o.s.b.StartupInfoLogger [main] Started ChatBot in 5.902 seconds (JVM running for 7.987)
-2021-10-06 18:08:00,664 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-10-06 18:08:00,664 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
-2021-10-06 18:08:00,666 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms
-2021-10-06 18:08:00,820 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] select next_val as id_val from hibernate_sequence for update
-2021-10-06 18:08:00,827 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] update hibernate_sequence set next_val= ? where next_val=?
-2021-10-06 18:08:00,995 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] insert into categories (name, id) values (?, ?)
-2021-10-06 18:08:01,171 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] select next_val as id_val from hibernate_sequence for update
-2021-10-06 18:08:01,173 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] update hibernate_sequence set next_val= ? where next_val=?
-2021-10-06 18:08:01,311 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] insert into categories (name, id) values (?, ?)
-2021-10-06 18:08:32,606 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select next_val as id_val from hibernate_sequence for update
-2021-10-06 18:08:32,608 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] update hibernate_sequence set next_val= ? where next_val=?
-2021-10-06 18:08:32,812 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] insert into categories (name, id) values (?, ?)
-2021-10-06 18:08:32,911 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select next_val as id_val from hibernate_sequence for update
-2021-10-06 18:08:32,913 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] update hibernate_sequence set next_val= ? where next_val=?
-2021-10-06 18:08:33,021 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] insert into categories (name, id) values (?, ?)
-2021-10-06 18:08:33,104 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select next_val as id_val from hibernate_sequence for update
-2021-10-06 18:08:33,108 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] update hibernate_sequence set next_val= ? where next_val=?
-2021-10-06 18:08:33,182 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] insert into categories (name, id) values (?, ?)
-2021-10-06 18:08:33,381 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] select next_val as id_val from hibernate_sequence for update
-2021-10-06 18:08:33,383 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] update hibernate_sequence set next_val= ? where next_val=?
-2021-10-06 18:08:33,522 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] insert into categories (name, id) values (?, ?)
-2021-10-06 18:13:07,331 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-10-06 18:13:07,331 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
-2021-10-06 18:13:07,331 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2021-10-08 10:55:21,025 INFO o.s.b.StartupInfoLogger [main] Starting ChatBot using Java 1.8.0_73 on LTI-TRAINING-03 with PID 17132 (D:\Developer\ChatBot\target\classes started by Haroon Rasheed in D:\Developer\ChatBot)
+2021-10-08 10:55:21,039 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-10-08 10:55:22,380 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-08 10:55:22,468 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 74 ms. Found 3 JPA repository interfaces.
+2021-10-08 10:55:23,108 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2021-10-08 10:55:23,138 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2021-10-08 10:55:23,138 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2021-10-08 10:55:23,139 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-08 10:55:23,336 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2021-10-08 10:55:23,336 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2157 ms
+2021-10-08 10:55:23,598 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-08 10:55:23,837 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-10-08 10:55:24,152 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-10-08 10:55:24,282 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2021-10-08 10:55:24,725 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-10-08 10:55:24,833 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-10-08 10:55:26,595 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-08 10:55:26,615 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-08 10:55:27,522 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-08 10:55:27,954 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2021-10-08 10:55:27,976 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2021-10-08 10:55:27,977 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Context refreshed
+2021-10-08 10:55:28,285 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
+2021-10-08 10:55:28,297 INFO s.d.s.w.s.ApiListingReferenceScanner [main] Scanning for api listing references
+2021-10-08 10:55:28,614 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: deleteUsingDELETE_1
+2021-10-08 10:55:28,685 INFO o.s.b.StartupInfoLogger [main] Started ChatBot in 8.191 seconds (JVM running for 10.731)

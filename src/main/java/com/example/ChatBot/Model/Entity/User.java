@@ -1,4 +1,4 @@
-package com.example.ChatBot.Model;
+package com.example.ChatBot.Model.Entity;
 
 import lombok.Data;
 

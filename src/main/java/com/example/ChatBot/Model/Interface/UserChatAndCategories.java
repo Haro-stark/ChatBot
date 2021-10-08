@@ -1,0 +1,8 @@
+package com.example.ChatBot.Model.Interface;
+
+import lombok.Data;
+
+@Data
+public class UserChatAndCategories {
+
+}
