@@ -3,7 +3,7 @@ package com.example.ChatBot.Model.Interface;
 import lombok.Data;
 
 @Data
-public class UserChatsDTO {
+public class OtherUserChats {
     private long id;
     private String answer;
     private String answerDate;

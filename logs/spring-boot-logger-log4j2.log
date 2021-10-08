@@ -1,26 +1,53 @@
-2021-10-08 10:55:21,025 INFO o.s.b.StartupInfoLogger [main] Starting ChatBot using Java 1.8.0_73 on LTI-TRAINING-03 with PID 17132 (D:\Developer\ChatBot\target\classes started by Haroon Rasheed in D:\Developer\ChatBot)
-2021-10-08 10:55:21,039 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-10-08 10:55:22,380 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-10-08 10:55:22,468 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 74 ms. Found 3 JPA repository interfaces.
-2021-10-08 10:55:23,108 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
-2021-10-08 10:55:23,138 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
-2021-10-08 10:55:23,138 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
-2021-10-08 10:55:23,139 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.53]
-2021-10-08 10:55:23,336 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
-2021-10-08 10:55:23,336 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2157 ms
-2021-10-08 10:55:23,598 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-10-08 10:55:23,837 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 5.4.32.Final
-2021-10-08 10:55:24,152 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-10-08 10:55:24,282 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
-2021-10-08 10:55:24,725 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
-2021-10-08 10:55:24,833 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2021-10-08 10:55:26,595 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-10-08 10:55:26,615 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-10-08 10:55:27,522 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-10-08 10:55:27,954 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
-2021-10-08 10:55:27,976 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
-2021-10-08 10:55:27,977 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Context refreshed
-2021-10-08 10:55:28,285 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
-2021-10-08 10:55:28,297 INFO s.d.s.w.s.ApiListingReferenceScanner [main] Scanning for api listing references
-2021-10-08 10:55:28,614 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: deleteUsingDELETE_1
-2021-10-08 10:55:28,685 INFO o.s.b.StartupInfoLogger [main] Started ChatBot in 8.191 seconds (JVM running for 10.731)
+2021-10-08 16:11:19,996 INFO o.s.b.StartupInfoLogger [main] Starting ChatBot using Java 1.8.0_73 on LTI-TRAINING-03 with PID 19060 (D:\Developer\ChatBot\target\classes started by Haroon Rasheed in D:\Developer\ChatBot)
+2021-10-08 16:11:20,010 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-10-08 16:11:21,657 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-08 16:11:21,779 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 104 ms. Found 3 JPA repository interfaces.
+2021-10-08 16:11:22,414 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2021-10-08 16:11:22,489 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2021-10-08 16:11:22,490 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2021-10-08 16:11:22,490 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-08 16:11:22,661 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2021-10-08 16:11:22,662 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2505 ms
+2021-10-08 16:11:22,821 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-08 16:11:22,981 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-10-08 16:11:23,121 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-10-08 16:11:23,225 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2021-10-08 16:11:23,562 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-10-08 16:11:23,585 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-10-08 16:11:24,583 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-08 16:11:24,593 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-08 16:11:25,254 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-08 16:11:25,671 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2021-10-08 16:11:25,933 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2021-10-08 16:11:25,935 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Context refreshed
+2021-10-08 16:11:25,953 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
+2021-10-08 16:11:25,964 INFO s.d.s.w.s.ApiListingReferenceScanner [main] Scanning for api listing references
+2021-10-08 16:11:26,200 INFO s.d.s.w.r.o.CachingOperationNameGenerator [main] Generating unique operation named: deleteUsingDELETE_1
+2021-10-08 16:11:26,253 INFO o.s.b.StartupInfoLogger [main] Started ChatBot in 6.908 seconds (JVM running for 9.195)
+2021-10-08 16:12:04,349 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-10-08 16:12:04,350 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-10-08 16:12:04,352 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms
+2021-10-08 16:12:04,437 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] select user0_.user_id as user_id1_2_0_, user0_.email as email2_2_0_, user0_.name as name3_2_0_, user0_.password as password4_2_0_, user0_.username as username5_2_0_ from user user0_ where user0_.user_id=?
+2021-10-08 16:31:36,663 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] insert into user (email, name, password, username) values (?, ?, ?, ?)
+2021-10-08 16:32:01,109 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] select user0_.user_id as user_id1_2_0_, user0_.email as email2_2_0_, user0_.name as name3_2_0_, user0_.password as password4_2_0_, user0_.username as username5_2_0_ from user user0_ where user0_.user_id=?
+2021-10-08 16:33:42,361 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-6] insert into user (email, name, password, username) values (?, ?, ?, ?)
+2021-10-08 16:33:42,440 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-6] insert into chat (answer, answer_date, question, question_date) values (?, ?, ?, ?)
+2021-10-08 16:33:42,605 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-6] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-08 16:33:42,752 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-6] insert into user_categories (user_id, category_id) values (?, ?)
+2021-10-08 16:33:42,762 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-6] update chat set user_id=? where chat_id=?
+2021-10-08 16:50:13,738 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] select user0_.user_id as user_id1_2_0_, user0_.email as email2_2_0_, user0_.name as name3_2_0_, user0_.password as password4_2_0_, user0_.username as username5_2_0_ from user user0_ where user0_.user_id=?
+2021-10-08 16:50:13,833 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-08 16:50:13,871 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-08 16:50:19,909 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select user0_.user_id as user_id1_2_, user0_.email as email2_2_, user0_.name as name3_2_, user0_.password as password4_2_, user0_.username as username5_2_ from user user0_
+2021-10-08 16:50:19,923 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-08 16:50:19,926 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-08 16:50:19,929 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-08 16:50:19,932 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-08 16:50:19,934 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-08 16:50:19,937 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-9] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-08 16:50:27,732 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select user0_.user_id as user_id1_2_0_, user0_.email as email2_2_0_, user0_.name as name3_2_0_, user0_.password as password4_2_0_, user0_.username as username5_2_0_ from user user0_ where user0_.user_id=?
+2021-10-08 16:50:27,736 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-08 16:50:27,738 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-10] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?
+2021-10-08 16:52:29,118 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] select user0_.user_id as user_id1_2_0_, user0_.email as email2_2_0_, user0_.name as name3_2_0_, user0_.password as password4_2_0_, user0_.username as username5_2_0_ from user user0_ where user0_.user_id=?
+2021-10-08 16:52:29,122 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] select chatlist0_.user_id as user_id6_1_0_, chatlist0_.chat_id as chat_id1_1_0_, chatlist0_.chat_id as chat_id1_1_1_, chatlist0_.answer as answer2_1_1_, chatlist0_.answer_date as answer_d3_1_1_, chatlist0_.question as question4_1_1_, chatlist0_.question_date as question5_1_1_ from chat chatlist0_ where chatlist0_.user_id=?
+2021-10-08 16:52:29,125 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-3] select categoryli0_.user_id as user_id1_3_0_, categoryli0_.category_id as category2_3_0_, category1_.id as id1_0_1_, category1_.name as name2_0_1_ from user_categories categoryli0_ inner join categories category1_ on categoryli0_.category_id=category1_.id where categoryli0_.user_id=?

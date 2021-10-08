@@ -151,5 +151,19 @@ public class UserController {
         return userService.addUserChat(user);
     }
 
-
+    //This API gets all the user in database
+    @GetMapping("/getUserChatsAndCategories")
+    public ResponseEntity<Object> getUserChatsAndCategories(@RequestHeader("Authorization") Optional<String> authToken,
+                                                            @RequestParam("userId") Long userId) throws Exception {
+        try {
+            authorized(authToken);
+        } catch (HttpClientErrorException e) {
+            LOG.info("Unable to Authorize : " + e.getMessage());
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+        return userService.getUserChatsAndCategories(userId);
+    }
 }

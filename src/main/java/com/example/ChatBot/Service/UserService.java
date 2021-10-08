@@ -2,15 +2,20 @@ package com.example.ChatBot.Service;
 
 
 import com.example.ChatBot.DateTime;
-import com.example.ChatBot.Model.Entity.Chat;
 import com.example.ChatBot.Model.Entity.User;
+import com.example.ChatBot.Model.Interface.OtherUserChatsAndCategories;
+import com.example.ChatBot.Model.Interface.OtherUser;
+import com.example.ChatBot.Model.Interface.OwnChatsAndCategories;
 import com.example.ChatBot.Repository.UserRepository;
 import lombok.extern.java.Log;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +34,11 @@ public class UserService {
     private final UserRepository userRepository;
     private String date;
 
+    HttpHeaders headers = new HttpHeaders();
+    RestTemplate restTemplate = new RestTemplate();
+    final String baseUrl = "http://192.168.10.7:8080/users";
+    URI uri;
+
 
     //Initialized the constructor instead of autowired
     public UserService(UserRepository userRepository) {
@@ -44,15 +54,14 @@ public class UserService {
      * @creationDate 07 October 2021
      */
     public ResponseEntity<List<User>> getAllUsers() {
-        try
-        {
+        try {
             List<User> users = userRepository.findAll();
-            if (users.size()>0) {
+            if (users.size() > 0) {
                 return ResponseEntity.ok().body(users);
             } else {
                 return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity("Unable to Get All Users\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
@@ -66,15 +75,15 @@ public class UserService {
      * @creationDate 07 October 2021
      */
     public ResponseEntity<User> getUserById(Long userId) {
-        try{
+        try {
             Optional<User> user = userRepository.findById(userId);
             if (user.isPresent()) {
                 return ResponseEntity.ok().body(user.get());
             } else {
                 return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
             }
-        }catch (Exception e){
-            return new ResponseEntity("Unable to get user by id\n"+e.getMessage() , HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to get user by id\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -90,8 +99,7 @@ public class UserService {
 
         date = DateTime.getDateTime();
         Integer size = user.getChatList().size();
-        for(int i=0; i<size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             user.getChatList().get(i).setAnswerDate(date);
             user.getChatList().get(i).setQuestionDate(date);
         }
@@ -99,8 +107,8 @@ public class UserService {
         try {
             User userObj = userRepository.save(user);
             return ResponseEntity.ok().body(userObj);
-        } catch (HttpMessageNotReadableException e){
-            return new ResponseEntity("Please Provide a valid input format to Save a category!\n"+e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (HttpMessageNotReadableException e) {
+            return new ResponseEntity("Please Provide a valid input format to Save a category!\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity("Unable to Add User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -172,12 +180,11 @@ public class UserService {
      */
     public ResponseEntity<User> addUserChat(User user) {
         Optional<User> existingUser = userRepository.findById(user.getUserId());
-        try{
-            if(!user.getChatList().isEmpty()){
+        try {
+            if (!user.getChatList().isEmpty()) {
                 date = DateTime.getDateTime();
                 Integer size = user.getChatList().size();
-                for(int i=0; i<size; i++)
-                {
+                for (int i = 0; i < size; i++) {
                     user.getChatList().get(i).setAnswerDate(date);
                     user.getChatList().get(i).setQuestionDate(date);
                 }
@@ -185,42 +192,63 @@ public class UserService {
 
             existingUser.get().getChatList().addAll(user.getChatList());
 
-        }catch (Exception e){
-            return new ResponseEntity("Unable to add a chat in user!\n"+e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to add a chat in user!\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         try {
             User userObj = userRepository.save(existingUser.get());
             System.out.println(userObj.getUsername());
             return ResponseEntity.ok().body(userObj);
         } catch (Exception e) {
-            return new ResponseEntity("Unable to Update User\n"+ e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Unable to Update User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
 
     /**
-     * @return ResponseEntity which return a list of all users in db. and in else it just return not found status
+     * @return ResponseEntity which return a list of user's all categories and chat list. and in else it just returns not found status
      * @author Haroon Rasheed
      * @version 1.5
-     * @desription This function get and show all the user which are saved in database. The data from database
-     * comes in list so userlist.
-     * @creationDate 07 October 2021
+     * @desription This function gets all the categories and chats of a user from its own database or from its own
+     * database or  by calling a third party's API.
+     * @creationDate 08 October 2021
      */
-    public ResponseEntity<List<User>> getUserChats() {
-        try
-        {
-            List<User> users = userRepository.findAll();
-            if (users.size()>0) {
-                return ResponseEntity.ok().body(users);
+    public ResponseEntity<Object> getUserChatsAndCategories(long userId) {
+        try {
+            Optional<User> user = userRepository.findById(userId);
+            if (user.isPresent()) {
+                OwnChatsAndCategories ownUser = new OwnChatsAndCategories();
+                ownUser.setChats(user.get().getChatList());
+                ownUser.setCategories(user.get().getCategoryList());
+
+                return ResponseEntity.ok().body(ownUser);
+            } else if (!user.isPresent()) {
+                uri = new URI(baseUrl + "/" + userId);
+                headers.set("Authorization", "40dc498b-e837-4fa9-8e53-c1d51e01af15");
+                HttpEntity<OtherUser> requestEntity = new HttpEntity<>(null, headers);
+
+                ResponseEntity<OtherUser> otherUser;
+                try {
+                    otherUser = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, OtherUser.class);
+
+                    OtherUserChatsAndCategories otherUserChatsAndCategories = new OtherUserChatsAndCategories();
+                    otherUserChatsAndCategories.setOtherUserChats(otherUser.getBody().getChats());
+                    otherUserChatsAndCategories.setOtherUserCategories(otherUser.getBody().getCategories());
+
+                    return ResponseEntity.ok().body(otherUserChatsAndCategories);
+                } catch (HttpClientErrorException ex) {
+                    return new ResponseEntity("Missing request headers for other user api" + ex.getMessage(), HttpStatus.NOT_FOUND);
+                } catch (RestClientException e) {
+                    return new ResponseEntity(" Request failed because of a server error response" + e.getMessage(), HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e){
-            return new ResponseEntity("Unable to Get All Users\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to get user by id\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
-
 
 
 }
