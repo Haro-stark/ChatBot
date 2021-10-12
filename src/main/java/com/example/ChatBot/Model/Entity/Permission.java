@@ -1,18 +1,17 @@
 package com.example.ChatBot.Model.Entity;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
 @Data
-// A user model class that will contain all the necessary details of a user to be stored in database.
 @Entity
-// This model class will automatically be converted to a table in database based on this table annotation
-@Table(name="categories")
-public class Category {
+@Table(name = "permission")
+public class Permission {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = true)
     private String createdDate;
@@ -20,4 +19,5 @@ public class Category {
     private String updatedDate;
     @Column(nullable = false)
     private boolean status;
+
 }

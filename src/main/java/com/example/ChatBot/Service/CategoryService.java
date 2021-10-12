@@ -1,4 +1,5 @@
 package com.example.ChatBot.Service;
+import com.example.ChatBot.DateTime;
 import com.example.ChatBot.Model.Entity.Category;
 import com.example.ChatBot.Repository.CategoryRepository;
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +67,7 @@ public class CategoryService {
     public ResponseEntity<List<Category>> addCategory(List<Category> categories) {
         try {
             for(Category category: categories){
+                category.setCreatedDate(DateTime.getDateTime());
                 categoryRepository.save(category);
             }
             return ResponseEntity.ok().body(categories);
@@ -103,6 +105,7 @@ public class CategoryService {
      */
     public ResponseEntity<Category> updateCategory(Category category) {
         try {
+            category.setUpdatedDate(DateTime.getDateTime());
             Category categoryObj = categoryRepository.save(category);
             return ResponseEntity.ok().body(categoryObj);
         } catch (Exception e) {

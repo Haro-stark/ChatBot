@@ -25,8 +25,10 @@ public class Chat {
     @Column(nullable = false)
     private String answer;
     @Column(nullable = true)
-    private String questionDate;
+    private String createdDate;
     @Column(nullable = true)
-    private String answerDate;
+    private String updatedDate;
+    @Column(nullable = false)
+    private boolean status;
 
 }

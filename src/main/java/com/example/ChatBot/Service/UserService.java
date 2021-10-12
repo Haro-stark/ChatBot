@@ -95,15 +95,12 @@ public class UserService {
      * @creationDate 07 October 2021
      */
     public ResponseEntity<User> addUser(User user) {
-
-
         date = DateTime.getDateTime();
+        user.setCreatedDate(date);
         Integer size = user.getChatList().size();
         for (int i = 0; i < size; i++) {
-            user.getChatList().get(i).setAnswerDate(date);
-            user.getChatList().get(i).setQuestionDate(date);
+            user.getChatList().get(i).setCreatedDate(date);
         }
-
         try {
             User userObj = userRepository.save(user);
             return ResponseEntity.ok().body(userObj);
@@ -142,6 +139,7 @@ public class UserService {
 //        ResponseEntity<User> updateUser = this.getUserById(user.getUserId());
 
         try {
+            user.setUpdatedDate(DateTime.getDateTime());
             User userObj = userRepository.save(user);
             return ResponseEntity.ok().body(userObj);
         } catch (Exception e) {
@@ -185,8 +183,7 @@ public class UserService {
                 date = DateTime.getDateTime();
                 Integer size = user.getChatList().size();
                 for (int i = 0; i < size; i++) {
-                    user.getChatList().get(i).setAnswerDate(date);
-                    user.getChatList().get(i).setQuestionDate(date);
+                    user.getChatList().get(i).setCreatedDate(date);
                 }
             }
 
@@ -249,5 +246,21 @@ public class UserService {
         }
 
     }
-        
+
+
+    public ResponseEntity<List<User>> getAllUsersByStatus() {
+        try {
+            List<User> users = userRepository.findAllByRoleList_PermissionList_StatusIs(true);
+            if (users.size() > 0) {
+                return ResponseEntity.ok().body(users);
+            } else {
+                return new ResponseEntity("User Not Found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to Get All Users\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
 }

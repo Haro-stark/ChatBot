@@ -25,6 +25,12 @@ public class User {
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = true)
+    private String createdDate;
+    @Column(nullable = true)
+    private String updatedDate;
+    @Column(nullable = false)
+    private boolean status;
 
     @OneToMany(targetEntity = Chat.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId")
@@ -37,5 +43,13 @@ public class User {
         inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
     private List<Category> categoryList = new ArrayList<Category>();
+
+    @ManyToMany(targetEntity = Role.class, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name="user_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private List<Role> roleList = new ArrayList<>();
 
 }

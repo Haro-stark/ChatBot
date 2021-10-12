@@ -166,4 +166,22 @@ public class UserController {
         }
         return userService.getUserChatsAndCategories(userId);
     }
+
+
+    //This API gets all the user in database
+    @GetMapping("/getUsersByRoleStatusAndPermissionStatus")
+    public ResponseEntity<List<User>> getAllUsersByStatus(@RequestHeader("Authorization") Optional<String> authToken) throws Exception {
+        try {
+            authorized(authToken);
+        } catch (HttpClientErrorException e) {
+            LOG.info("Unable to Authorize : " + e.getMessage());
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+
+        return userService.getAllUsersByStatus();
+    }
+
 }

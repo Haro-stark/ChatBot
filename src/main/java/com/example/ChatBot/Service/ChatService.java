@@ -89,8 +89,7 @@ public class ChatService {
     public ResponseEntity<Chat> createChat(Chat chat) {
         try {
             String date = DateTime.getDateTime();
-            chat.setAnswerDate(date);
-            chat.setQuestionDate(date);
+            chat.setCreatedDate(date);
             Chat chat1 = chatRepository.save(chat);
             return ResponseEntity.ok().body(chat1);
         } catch (Exception e) {
@@ -127,8 +126,7 @@ public class ChatService {
         if (chat != null) {
             try {
                 String date = DateTime.getDateTime();
-                chat.setAnswerDate(date);
-                chat.setQuestionDate(date);
+                chat.setUpdatedDate(date);
             } catch (Exception e) {
                 return new ResponseEntity("Can not set the date and time of chat!\n"+e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
             }
