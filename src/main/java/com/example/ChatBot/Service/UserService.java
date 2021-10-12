@@ -132,7 +132,7 @@ public class UserService {
     }
 
     /**
-     * @return ResponseEntity which returns a user after updating in db. and in else it just return not found status
+     * @return ResponseEntity which returns a user after updating in db. and in else it just returns not found status
      * @author Haroon Rasheed
      * @version 1.5
      * @desription This Service function that requests the repository to update a user from the database.
@@ -150,7 +150,7 @@ public class UserService {
     }
 
     /**
-     * @return ResponseEntity which returns a user after finding in db. and in else it just return not found status
+     * @return ResponseEntity which returns a user after finding in db. and in else it just returns not found status
      * @author Haroon Rasheed
      * @version 1.5
      * @desription This Service function that requests the repository to find a user from the database based on its username
@@ -249,6 +249,5 @@ public class UserService {
         }
 
     }
-
-
+        
 }
