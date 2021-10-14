@@ -31,6 +31,8 @@ public class User {
     private String updatedDate;
     @Column(nullable = false)
     private boolean status;
+    @Column(nullable = false)
+    private String contactNum;
 
     @OneToMany(targetEntity = Chat.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId")

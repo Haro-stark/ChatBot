@@ -2,6 +2,7 @@ package com.example.ChatBot.Controller;
 
 
 import com.example.ChatBot.Model.Entity.User;
+import com.example.ChatBot.Model.Interface.SMS;
 import com.example.ChatBot.Service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -184,4 +185,18 @@ public class UserController {
         return userService.getAllUsersByStatus();
     }
 
+    //This API adds a user into the database
+    @PostMapping("/sendSms")
+    public ResponseEntity<SMS> createUser(@RequestHeader("Authorization") Optional<String> authToken,
+                                          @Validated @RequestBody SMS sms) throws Exception {
+        try {
+            authorized(authToken);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+        }
+        return userService.sendSms(sms);
+    }
 }

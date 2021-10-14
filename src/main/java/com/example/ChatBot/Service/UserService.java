@@ -6,7 +6,9 @@ import com.example.ChatBot.Model.Entity.User;
 import com.example.ChatBot.Model.Interface.OtherUserChatsAndCategories;
 import com.example.ChatBot.Model.Interface.OtherUser;
 import com.example.ChatBot.Model.Interface.OwnChatsAndCategories;
+import com.example.ChatBot.Model.Interface.SMS;
 import com.example.ChatBot.Repository.UserRepository;
+import com.twilio.exception.AuthenticationException;
 import lombok.extern.java.Log;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,6 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 import java.net.URI;
 import java.util.List;
@@ -33,6 +39,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private String date;
+
+    private static final String ACCOUNT_SID = "AC81d02d144295cdbec7e24bd18e361909";
+    private static final String AUTH_TOKEN = "a9533dd31f3c39c95aa00a80fd2379bd";
 
     HttpHeaders headers = new HttpHeaders();
     RestTemplate restTemplate = new RestTemplate();
@@ -247,10 +256,40 @@ public class UserService {
 
     }
 
+    /**
+     * @return ResponseEntity which is a chat recently sent to the mobile. and in else it just returns not found Http status.
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This function sends the number to the "to number"
+     * @creationDate 13 October 2021
+     */
+    public ResponseEntity<SMS> sendSms(SMS userSms) {
+        try {
+            Twilio.init(this.ACCOUNT_SID, this.AUTH_TOKEN);
+            Message.creator(new PhoneNumber(this.getToPhoneNumber(userSms.getUserId())),
+                    new PhoneNumber(userSms.getFromNumber()),
+                    userSms.getUserMessage()).create();
 
+            return ResponseEntity.ok().body(userSms);
+        }
+        catch (AuthenticationException e) {
+            return new ResponseEntity("Authentication error while sending message to the contact number! \n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            return new ResponseEntity("Unable to Add Chat\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * @return ResponseEntity which is a List of user. and in else it just returns not found Http status.
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This function returns the
+     * @creationDate 13 October 2021
+     */
     public ResponseEntity<List<User>> getAllUsersByStatus() {
         try {
-            List<User> users = userRepository.findAllByRoleList_PermissionList_StatusIs(true);
+            List<User> users = userRepository.findAllByRoleList_StatusAndRoleList_PermissionList_Status(true);
             if (users.size() > 0) {
                 return ResponseEntity.ok().body(users);
             } else {
@@ -259,8 +298,17 @@ public class UserService {
         } catch (Exception e) {
             return new ResponseEntity("Unable to Get All Users\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
 
-
+    /**
+     * @return String which is a phone number.
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This function returns the phone number against a particular user id
+     * @creationDate 13 October 2021
+     */
+    private String getToPhoneNumber(long id){
+        ResponseEntity<User> user = this.getUserById(id);
+        return user.getBody().getContactNum();
+    }
 }
