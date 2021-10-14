@@ -13,4 +13,8 @@ public class OtherUser {
     private String password; //variable to store the User Password
     private List<OtherUserChats> chats;
     private List<OtherUserCategory> categories;
+    private String createDate; // variable to store the user when question will be created
+    private String updateDate; // variable to store the date when user will be edited/updated
+    private String phoneNo; // variable to store the date when user will be edited/updated
+    private boolean status; //variable to store delete status of the permission
 }

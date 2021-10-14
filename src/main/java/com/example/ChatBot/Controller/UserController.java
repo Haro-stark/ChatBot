@@ -4,6 +4,7 @@ package com.example.ChatBot.Controller;
 import com.example.ChatBot.Model.Entity.User;
 import com.example.ChatBot.Model.Interface.SMS;
 import com.example.ChatBot.Service.UserService;
+import com.example.ChatBot.Util.MailUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class UserController {
     //This API gets all the user in database
     @GetMapping("")
     public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") Optional<String> authToken) throws Exception {
-       try {
+        try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
             LOG.info("Unable to Authorize : " + e.getMessage());
@@ -107,7 +108,7 @@ public class UserController {
     @PostMapping("/updateUserInfo")
     public ResponseEntity<User> updateUser(@RequestHeader("Authorization") Optional<String> authToken,
                                            @Validated @RequestBody User user) throws Exception {
-        try{
+        try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
             LOG.info("Unable to   Authorize: " + e.getMessage());
@@ -122,8 +123,8 @@ public class UserController {
     //This API logins the user by comparing password and username
     @GetMapping("/loginUser")
     public ResponseEntity<User> loginUser(@RequestHeader("Authorization") Optional<String> authToken,
-                                                @RequestParam("username") String uname,
-                                                @RequestParam("password") String pass) throws Exception {
+                                          @RequestParam("username") String uname,
+                                          @RequestParam("password") String pass) throws Exception {
         try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
@@ -139,8 +140,8 @@ public class UserController {
     //This API updates the user from the status
     @PostMapping("/update/addUserChat")
     public ResponseEntity<User> updateUserChat(@RequestHeader("Authorization") Optional<String> authToken,
-                                           @Validated @RequestBody User user) throws Exception {
-        try{
+                                               @Validated @RequestBody User user) throws Exception {
+        try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
             LOG.info("Unable to   Authorize: " + e.getMessage());
@@ -186,9 +187,11 @@ public class UserController {
     }
 
     //This API adds a user into the database
-    @PostMapping("/sendSms")
-    public ResponseEntity<SMS> createUser(@RequestHeader("Authorization") Optional<String> authToken,
-                                          @Validated @RequestBody SMS sms) throws Exception {
+    @GetMapping("/verifyUser")
+    public ResponseEntity<String> verifyUser(@RequestHeader("Authorization") Optional<String> authToken,
+                                             @RequestHeader Long userId,
+                                             @RequestHeader String smsToken,
+                                             @RequestHeader String emailToken) throws Exception {
         try {
             authorized(authToken);
         } catch (HttpClientErrorException e) {
@@ -197,6 +200,41 @@ public class UserController {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
                 return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
         }
-        return userService.sendSms(sms);
+        return userService.verifyUser(userId, smsToken, emailToken);
     }
+
+
+//    //This API adds a user into the database
+//    @PostMapping("/sendSms")
+//    public ResponseEntity<String> sendSms(@RequestHeader("Authorization") Optional<String> authToken,
+//                                          @RequestHeader("userId") Long id,
+//                                          @Validated @RequestBody String message) throws Exception {
+//        try {
+//            authorized(authToken);
+//        } catch (HttpClientErrorException e) {
+//            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+//                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+//            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+//                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+//        }
+//        return userService.sendSms(id, message);
+//    }
+
+
+//    //This API adds a user into the database
+//    @PostMapping("/sendMail")
+//    public ResponseEntity<String> sendMail(@RequestHeader("Authorization") Optional<String> authToken,
+//                                             @Validated @RequestBody MailUtil mail) throws Exception {
+//        try {
+//            authorized(authToken);
+//        } catch (HttpClientErrorException e) {
+//            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
+//                return new ResponseEntity("Authorization Key maybe Missing or Wrong", HttpStatus.NOT_FOUND);
+//            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+//                return new ResponseEntity("Authorization Process Failed", HttpStatus.UNAUTHORIZED);
+//        }
+//        return userService.sendEmail(mail);
+//    }
+
+
 }

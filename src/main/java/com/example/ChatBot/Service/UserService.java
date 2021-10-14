@@ -2,13 +2,17 @@ package com.example.ChatBot.Service;
 
 
 import com.example.ChatBot.DateTime;
+import com.example.ChatBot.Model.Entity.Permission;
+import com.example.ChatBot.Model.Entity.Role;
 import com.example.ChatBot.Model.Entity.User;
 import com.example.ChatBot.Model.Interface.OtherUserChatsAndCategories;
 import com.example.ChatBot.Model.Interface.OtherUser;
 import com.example.ChatBot.Model.Interface.OwnChatsAndCategories;
-import com.example.ChatBot.Model.Interface.SMS;
+import com.example.ChatBot.Repository.PermissionRepository;
+import com.example.ChatBot.Repository.RoleRepository;
 import com.example.ChatBot.Repository.UserRepository;
-import com.twilio.exception.AuthenticationException;
+import com.example.ChatBot.Util.SmsUtil;
+import com.example.ChatBot.Util.MailUtil;
 import lombok.extern.java.Log;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,14 +20,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * @author Haroon Rasheed
@@ -36,22 +40,25 @@ import java.util.Optional;
 @Log
 @Service
 public class UserService {
-
+    private final JavaMailSender javaMailSender;
+    private final PermissionRepository permissionRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private String date;
 
-    private static final String ACCOUNT_SID = "AC81d02d144295cdbec7e24bd18e361909";
-    private static final String AUTH_TOKEN = "a9533dd31f3c39c95aa00a80fd2379bd";
 
     HttpHeaders headers = new HttpHeaders();
     RestTemplate restTemplate = new RestTemplate();
-    final String baseUrl = "http://192.168.10.7:8080/users";
+    final String baseUrl = "http://192.168.100.65:8080/users";
     URI uri;
 
 
     //Initialized the constructor instead of autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(PermissionRepository permissionRepository, UserRepository userRepository, RoleRepository roleRepository, JavaMailSender javaMailSender) {
+        this.permissionRepository = permissionRepository;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.javaMailSender = javaMailSender;
     }
 
     /**
@@ -104,8 +111,31 @@ public class UserService {
      * @creationDate 07 October 2021
      */
     public ResponseEntity<User> addUser(User user) {
+        // generating random 6 digit number for sms and email verification
+        Integer n = 100000 + new Random().nextInt(900000);
+        String smsToken = n.toString();
+        n = 100000 + new Random().nextInt(900000);
+        String emailToken = n.toString();
+
+        // setting the email and sms token in user object that is to be saved in database
+        user.setEmailToken(emailToken);
+        user.setSmsToken(smsToken);
+
+        // setting user created date
         date = DateTime.getDateTime();
         user.setCreatedDate(date);
+
+        // setting user status to false for now
+        user.setStatus(false);
+
+        // sending email to user
+        MailUtil mail = new MailUtil(javaMailSender);
+        String emailMessage = "Following is your verification code:\n" + emailToken;
+        mail.sendEmail(user.getEmail(), emailMessage);
+
+        // sending sms to the user
+        this.sendSms(user.getContactNum(), smsToken);
+
         Integer size = user.getChatList().size();
         for (int i = 0; i < size; i++) {
             user.getChatList().get(i).setCreatedDate(date);
@@ -118,7 +148,6 @@ public class UserService {
         } catch (Exception e) {
             return new ResponseEntity("Unable to Add User\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
 
     /**
@@ -257,30 +286,6 @@ public class UserService {
     }
 
     /**
-     * @return ResponseEntity which is a chat recently sent to the mobile. and in else it just returns not found Http status.
-     * @author Haroon Rasheed
-     * @version 1.5
-     * @desription This function sends the number to the "to number"
-     * @creationDate 13 October 2021
-     */
-    public ResponseEntity<SMS> sendSms(SMS userSms) {
-        try {
-            Twilio.init(this.ACCOUNT_SID, this.AUTH_TOKEN);
-            Message.creator(new PhoneNumber(this.getToPhoneNumber(userSms.getUserId())),
-                    new PhoneNumber(userSms.getFromNumber()),
-                    userSms.getUserMessage()).create();
-
-            return ResponseEntity.ok().body(userSms);
-        }
-        catch (AuthenticationException e) {
-            return new ResponseEntity("Authentication error while sending message to the contact number! \n" + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e) {
-            return new ResponseEntity("Unable to Add Chat\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /**
      * @return ResponseEntity which is a List of user. and in else it just returns not found Http status.
      * @author Haroon Rasheed
      * @version 1.5
@@ -289,7 +294,12 @@ public class UserService {
      */
     public ResponseEntity<List<User>> getAllUsersByStatus() {
         try {
-            List<User> users = userRepository.findAllByRoleList_StatusAndRoleList_PermissionList_Status(true);
+            List<Role> roles = roleRepository.findByStatus(true);
+            List<Permission> permissions = permissionRepository.findByStatus(true);
+//            List<User> users = userRepository.findAllByRoleList_StatusAndRoleList_PermissionList_Status(true);
+//            List<User> users = userRepository.findAllByStatusAndRoleListInAndRoleList_PermissionListIn(true, roles, permissions);
+//            List<User> users = userRepository.findAllByStatusAndRoleListIsAndRoleList_PermissionListIs(true, roles, permissions);
+            List<User> users = userRepository.findAllByStatusTrueAndRoleList_StatusTrueAndRoleList_PermissionList_StatusTrue();
             if (users.size() > 0) {
                 return ResponseEntity.ok().body(users);
             } else {
@@ -300,6 +310,26 @@ public class UserService {
         }
     }
 
+
+    /**
+     * @return ResponseEntity which is a chat recently sent to the mobile. and in else it just returns not found Http status.
+     * @author Haroon Rasheed
+     * @version 1.5
+     * @desription This function sends the number to the "to number"
+     * @creationDate 13 October 2021
+     */
+    public ResponseEntity<String> sendSms(String contactNumber, String smsToken) {
+        String message = "Your SmS Verification token for user registration is:\n" + smsToken;
+        try {
+            String toNumber = contactNumber;
+            String response = SmsUtil.sendSms(toNumber, message);
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to send sms\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     /**
      * @return String which is a phone number.
      * @author Haroon Rasheed
@@ -307,8 +337,22 @@ public class UserService {
      * @desription This function returns the phone number against a particular user id
      * @creationDate 13 October 2021
      */
-    private String getToPhoneNumber(long id){
-        ResponseEntity<User> user = this.getUserById(id);
-        return user.getBody().getContactNum();
+    public ResponseEntity<String> verifyUser(Long userId, String smsToken, String emailToken) {
+
+        try {
+            Optional<User> user = Optional.ofNullable(userRepository.findByUserIdAndSmsTokenAndEmailToken(userId, smsToken, emailToken));
+            if(user.isPresent()){
+                user.get().setStatus(true);
+                userRepository.save(user.get());
+                return ResponseEntity.ok().body("User Verified");
+            }else{
+                return ResponseEntity.ok().body("User can not be Verified");
+            }
+        } catch (Exception e) {
+            return new ResponseEntity("Unable to verify user\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+
+
     }
 }

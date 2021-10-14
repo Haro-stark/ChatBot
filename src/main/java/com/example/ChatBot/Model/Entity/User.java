@@ -29,10 +29,15 @@ public class User {
     private String createdDate;
     @Column(nullable = true)
     private String updatedDate;
-    @Column(nullable = false)
+    @Column
     private boolean status;
     @Column(nullable = false)
     private String contactNum;
+    @Column
+    private String emailToken;
+    @Column
+    private String smsToken;
+
 
     @OneToMany(targetEntity = Chat.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId")
